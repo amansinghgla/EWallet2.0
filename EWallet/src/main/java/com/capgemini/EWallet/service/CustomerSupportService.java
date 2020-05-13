@@ -1,43 +1,30 @@
 package com.capgemini.EWallet.service;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.capgemini.EWallet.exception.WalletUserException;
 import com.capgemini.EWallet.entity.CustomerSupport;
+
 import com.capgemini.EWallet.dao.CustomerSupportDao;
 
 
 
-@Service
-@Transactional
-public class CustomerSupportService {
-	private final CustomerSupportDao customersupportdao;
+public interface CustomerSupportService {
 	
-	public CustomerSupportService(CustomerSupportDao customersupportdao) {
-		this.customersupportdao=customersupportdao;
-	}
+	boolean addIssue(CustomerSupport customersupport);
+	List<CustomerSupport> getAllIssue();
 	
-	public void saveMyCustomerSupport(CustomerSupport customersupport) {
-		customersupportdao.save(customersupport);
-	}
-	
-	public List<CustomerSupport> showAllIssues(){
-		List<CustomerSupport> issues = new ArrayList<CustomerSupport>();
-		for(CustomerSupport customersupport : customersupportdao.findAll()) {
-			issues.add(customersupport);
-		}
-		
-		return issues;
-	}
-	
-	
+	CustomerSupport saveIssue(CustomerSupport customersupport);
+
+}
 	
 	
 	
 	
 
-}
+

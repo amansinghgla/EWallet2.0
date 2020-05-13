@@ -1,10 +1,15 @@
 package com.capgemini.EWallet.entity;
 
 
+import java.security.Timestamp;
+import java.time.LocalDateTime;
+
 import javax.persistence.*;
+
 import javax.persistence.Column;
 
-import java.time.LocalDateTime;
+
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -16,8 +21,9 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+
 
 
 
@@ -46,13 +52,13 @@ public class CustomerSupport {
 	private String CustomerPhoneNumber;
 	
 	@NotEmpty(message="Issue can not be empty")
-	@Size(min=3,max=1000,message="Issue can be explained  betwwen 3 and 25 chars")
+	@Size(min=3,max=1000,message="Issue can be explained  betwwen 3 and 1000 chars")
 	@Column(name="cust_issue")
 	private String  CustomerIssue;
 	
 	@NotNull
 	@Column(name="dateof_issue")
-	@JsonFormat(pattern="yyyy-mm-dd HH:mm:ss", timezone="India")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime DateOfIssue;
 
 	public Integer getCustomerUserId() {

@@ -1,6 +1,7 @@
 package com.capgemini.EWallet.service;
 import java.util.List;
 
+
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.capgemini.EWallet.entity.WalletTransactions;
-import com.capgemini.EWallet.exception.EwalletException;
 import com.capgemini.EWallet.entity.WalletAccount;
 import com.capgemini.EWallet.entity.WalletAccount;
 import com.capgemini.EWallet.dao.AccountDao;
@@ -56,10 +56,9 @@ public  class TransactionServiceImpl implements TransactionService{
 		// TODO Auto-generated method stub
 		WalletAccount wallet;
 		Optional<WalletAccount> present = accountdao.findById(accountId);
-		if (present.isPresent())
+		
 			wallet = present.get();
-		else
-			throw new EwalletException("Account not found"); 
+		
 
 		wallet.setAccountBalance(amount);
 
@@ -70,10 +69,10 @@ public  class TransactionServiceImpl implements TransactionService{
 	public WalletAccount findAccount(int accountId) {
 		// TODO Auto-generated method stub
 		Optional<WalletAccount> acc = accountdao.findById(accountId);
-		if(acc.isPresent()) 
+		
 			return acc.get();
-		else
-			throw new EwalletException("AccountId  not found!"); 
+		
+			
 		
 	}
 	

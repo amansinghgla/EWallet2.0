@@ -21,7 +21,7 @@ public class WalletConfiguration extends WebMvcConfigurationSupport {
 	 @Bean
 	    public Docket version1() {
 	        return new Docket(DocumentationType.SWAGGER_2).select()
-	                .apis(RequestHandlerSelectors.basePackage("com.capgemini.ewallet.controller"))
+	                .apis(RequestHandlerSelectors.basePackage("com.capgemini.EWallet.controller"))
 	                .paths(regex(".*" + ".*")).build().enable(true)
 	                .groupName("EWallet")
 	                .apiInfo(new ApiInfoBuilder().description("EWallet")
