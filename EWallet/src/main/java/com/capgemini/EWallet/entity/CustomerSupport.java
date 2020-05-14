@@ -1,10 +1,10 @@
 package com.capgemini.EWallet.entity;
 
 
-import java.security.Timestamp;
-import java.time.LocalDateTime;
 
-import javax.persistence.*;
+import java.util.Date;
+
+
 
 import javax.persistence.Column;
 
@@ -20,8 +20,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers.DateDeserializer;
 
 
 
@@ -57,9 +57,9 @@ public class CustomerSupport {
 	private String  CustomerIssue;
 	
 	@NotNull
-	@Column(name="dateof_issue")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private LocalDateTime DateOfIssue;
+	@Column(name="dateof_issue" )
+	@JsonDeserialize(using=DateDeserializer .class)
+	private Date DateOfIssue;
 
 	public Integer getCustomerUserId() {
 		return CustomerUserId;
@@ -93,11 +93,11 @@ public class CustomerSupport {
 		CustomerIssue = customerIssue;
 	}
 
-	public LocalDateTime getDateOfIssue() {
+	public Date getDateOfIssue() {
 		return DateOfIssue;
 	}
 
-	public void setDateOfIssue(LocalDateTime dateOfIssue) {
+	public void setDateOfIssue(Date dateOfIssue) {
 		DateOfIssue = dateOfIssue;
 	}
 
@@ -105,7 +105,7 @@ public class CustomerSupport {
 			@NotEmpty(message = "User Name is Mandatory") @Size(min = 3, max = 25, message = "Length can be betwwen 3 and 25 chars") String customerUserName,
 			@NotEmpty(message = "Phone no can not be empty") @Pattern(regexp = "(^$|[0-9]{10})") String customerPhoneNumber,
 			@NotEmpty(message = "Issue can not be empty") @Size(min = 3, max = 1000, message = "Issue can be explained  betwwen 3 and 25 chars") String customerIssue,
-			@NotNull LocalDateTime dateOfIssue) {
+			@NotNull Date dateOfIssue) {
 		super();
 		CustomerUserId = customerUserId;
 		CustomerUserName = customerUserName;

@@ -2,6 +2,7 @@ package com.capgemini.EWallet.entity;
 
 import javax.persistence.*;
 
+
 import javax.persistence.Column;
 
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+
 
 @Entity
 @Table(name = "walletuser")
@@ -37,9 +40,9 @@ public class WalletUser {
 	@Column(name="user_name",length=25)
 	private String userName;
 	
-	@NotNull(message="Password is Mandatory")
-	
-	@Column(name="password")
+	@NotEmpty(message = "user password is mandatory")
+	@Column(name="user_password")
+	@Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{4,14}$")
 	private String password;
 	
 	@NotNull(message="Phone number is Mandatory")
@@ -53,9 +56,7 @@ public class WalletUser {
 	@Column(name="login_name" ,length=25)
 	private String loginName;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "acc_Id",referencedColumnName="acc_id")
-	private WalletAccount walletaccount;
+	
 	
 	
 	public WalletUser() {
@@ -113,13 +114,22 @@ public class WalletUser {
 	public void setLoginName(String loginName) {
 		this.loginName = loginName;
 	}
-	public WalletAccount getWalleAccount() {
-		return walletaccount;
-	}
 
-	public void setWallet(WalletAccount walletaccount) {
-		this.walletaccount = walletaccount;
-	}
 
+
+
+	@Override
+	public String toString() {
+		return "WalletUser [userId=" + userId + ", userName=" + userName + ", password=" + password + ", phoneNumber="
+				+ phoneNumber + ", loginName=" + loginName + ", ]";
+	}
+	
+
+
+
+	
+	
+	
+	
 
 }
