@@ -1,0 +1,33 @@
+<section class="col-md-4 mx-auto">
+    <h2 class="test-center">Customer Support Form</h2>
+    <div class="alert alert-success" *ngIf="msg !=undefined"> {{msg}}</div>
+    <div class="alert alert-danger" *ngIf="errorMsg != undefined" [innerHTML]="errorMsg">{{errorMsg}}</div>
+    
+    <form #frm="ngForm" (ngSubmit)="addIssue()">
+        <div>Customer UserID</div>
+        <div><input type="number" name="customeruserid" [(ngModel)]="customersupport.customeruserId" required #modelaid="ngModel" class="form-control"></div>
+        <div class="alert alert-danger" *ngIf="modelaid.invalid && modelaid.touched"> Customer UserID is required</div>
+
+        <div>Customer User Name</div>
+        <div><input type="text" name="customerusername" [(ngModel)]="customersupport.customeruserName" required #mlcname="ngModel" class="form-control"/></div>
+        <div class="alert alert-danger" *ngIf="mlcname.invalid && mlcname.touched">Customer User Name is required</div>
+
+        
+
+
+        <div> Customer Phone Number</div>
+        <div><input type="text" name="customerphoneno" [(ngModel)]="customersupport.customerphoneNumber" required #mlbal="ngModel" class="form-control"/></div>
+        <div class="alert alert-danger" *ngIf="mlbal.invalid && mlbal.touched"> Phone Number is required</div>
+
+        <div>Customer Issue</div>
+        <div><input type="text" name="customerissue" [(ngModel)]="customersupport.customerIssue" required #mlcname="ngModel" class="form-control"/></div>
+        <div class="alert alert-danger" *ngIf="mlcname.invalid && mlcname.touched"> Tell us about issue</div>
+
+        <div>Date of  Issue</div>
+        <div><input type="date" name="dateofissue" [(ngModel)]="customersupport.dateofIssue" required #mlcname="ngModel" class="form-control"/></div>
+        <div class="alert alert-danger" *ngIf="mlcname.invalid && mlcname.touched"> Date of issue is mandatory</div>
+
+
+        <div class="mt-2 text-center"><input type="submit" value="Save" [disabled]="!frm.valid" class="btn btn-danger"/> </div>
+    </form>
+</section>
