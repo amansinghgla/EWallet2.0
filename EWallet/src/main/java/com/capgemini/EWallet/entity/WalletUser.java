@@ -42,7 +42,7 @@ public class WalletUser {
 	
 	@NotEmpty(message = "user password is mandatory")
 	@Column(name="user_password")
-	@Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{4,14}$")
+	@Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{4,14}$",message="Password must have Number and one uppercase letter and special characters")
 	private String password;
 	
 	@NotNull(message="Phone number is Mandatory")
@@ -56,7 +56,6 @@ public class WalletUser {
 	@Column(name="login_name" ,length=25)
 	private String loginName;
 
-	
 	
 	
 	public WalletUser() {

@@ -1,7 +1,8 @@
 package com.capgemini.EWallet.entity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+
+import java.util.Date;
 
 
 
@@ -9,13 +10,14 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers.DateDeserializer;
+
 
 
 
@@ -47,8 +49,8 @@ public class WalletTransactions {
 	
 	
 	@Column(name="transactiondate")
-	@JsonFormat(pattern="yyyy-mm-dd HH:mm:ss", timezone="India")
-	private LocalDateTime dateofTransaction;
+	@JsonDeserialize(using=DateDeserializer .class)
+	private Date dateofTransaction;
 	
 	@NotNull(message="amount is mandatory")
 	@Max(value=100000,message="Amount to be transferred must not be greater than 100000")
@@ -86,10 +88,10 @@ public class WalletTransactions {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public LocalDateTime getDateofTransaction() {
+	public Date getDateofTransaction() {
 		return dateofTransaction;
 	}
-	public void setDateofTransaction(LocalDateTime dateofTransaction) {
+	public void setDateofTransaction(Date dateofTransaction) {
 		this.dateofTransaction = dateofTransaction;
 	}
 	public Double getAmount() {
@@ -111,7 +113,7 @@ public class WalletTransactions {
 		// TODO Auto-generated constructor stub
 	}
 	public WalletTransactions(int transactionId, int senderId, int receiverId, String description,
-			LocalDateTime dateofTransaction,Double amount,Double accountBalance) {
+			Date dateofTransaction,Double amount,Double accountBalance) {
 		super();
 		this.transactionId = transactionId;
 		this.senderId = senderId;

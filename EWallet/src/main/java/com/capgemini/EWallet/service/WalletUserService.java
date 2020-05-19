@@ -4,6 +4,8 @@ import java.util.List;
 
 
 
+
+
 import com.capgemini.EWallet.entity.WalletUser;
 import com.capgemini.EWallet.exception.WalletUserException;
 
@@ -15,5 +17,6 @@ public interface WalletUserService {
 	List<WalletUser> getAllWalletUser();
 	
 	WalletUser saveUser(WalletUser user);
+	WalletUser validateUser(Integer userId,String password);
 
 }

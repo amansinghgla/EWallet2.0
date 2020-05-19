@@ -3,7 +3,12 @@ package com.capgemini.EWallet.service;
 import java.util.List;
 
 
-import javax.transaction.Transactional;
+import java.lang.String;
+
+
+
+
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +17,8 @@ import org.springframework.stereotype.Service;
 import com.capgemini.EWallet.entity.WalletUser;
 import com.capgemini.EWallet.dao.WalletUserDao;
 import com.capgemini.EWallet.exception.WalletUserException;
+import com.capgemini.EWallet.exception.RecordNotFoundException;
+
 
 @Service
 public  class WalletUserServiceImpl  implements WalletUserService {
@@ -40,8 +47,17 @@ public  class WalletUserServiceImpl  implements WalletUserService {
 		else
 			return false;
 	}
+	@Override
+	public WalletUser validateUser(Integer userId,String password) {
+		// TODO Auto-generated method stub
+		return walletuserdao.LoginDetails(userId, password);
+		
+
 	}
 	
-	
 
+	
+	
+	
+}
 

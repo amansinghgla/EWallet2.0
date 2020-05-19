@@ -4,6 +4,7 @@ package com.capgemini.EWallet.controller;
 import java.util.List;
 
 
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +25,7 @@ import com.capgemini.EWallet.entity.CustomerSupport;
 import com.capgemini.EWallet.service.CustomerSupportService;
 import com.capgemini.EWallet.exception.WalletUserException;
 
-
+@CrossOrigin(origins="http://localhost:4200")
 @RestController
 public class CustomerSupportController {
 	 
@@ -37,6 +39,8 @@ public class CustomerSupportController {
 		return new ResponseEntity<List<CustomerSupport>>(issueList,HttpStatus.OK);
 	}
 	
+	
+	@CrossOrigin(origins="http://localhost:4200")
 	@PostMapping("/addissue")
 	public ResponseEntity<String> addIssue(@Valid @RequestBody CustomerSupport customersupport, BindingResult br) throws WalletUserException
 	{

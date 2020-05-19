@@ -1,18 +1,16 @@
 package com.capgemini.EWallet.service;
 import java.util.List;
 
-
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.capgemini.EWallet.entity.WalletTransactions;
-import com.capgemini.EWallet.entity.WalletAccount;
+import com.capgemini.EWallet.exception.TransactionException;
 import com.capgemini.EWallet.entity.WalletAccount;
 import com.capgemini.EWallet.dao.AccountDao;
 import com.capgemini.EWallet.dao.TransactionDao;
@@ -20,7 +18,8 @@ import com.capgemini.EWallet.dao.TransactionDao;
 @Service
 @Transactional
 public  class TransactionServiceImpl implements TransactionService{
-
+	
+	
 	
 	@Autowired
 	TransactionDao transferdao;
@@ -30,61 +29,38 @@ public  class TransactionServiceImpl implements TransactionService{
 	
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-	public String TransferAmount(WalletTransactions transfer) {
+	public String TransferMoney(int senderId,int recieverId,double amt) throws TransactionException {
 		// TODO Auto-generated method stub
-		if(transfer.getAmount()<=0) {
-			return "Enter amount to be transferred";
+    	WalletAccount SenderAccount, RecieverAccount;
+		Optional<WalletAccount> SenderAccountOp=accountdao.findById(senderId);
+		if(SenderAccountOp.isPresent()) {
+			SenderAccount=SenderAccountOp.get();
 		}
-		transferdao.save(transfer);
+		else {
+			throw new TransactionException("Sender ID is not present");
+		}
 		
-
-		WalletAccount sender = findAccount(transfer.getSenderId());
-		WalletAccount receiver = findAccount(transfer.getReceiverId());
-		double sender_new_balance = sender.getAccountBalance()-transfer.getAmount();
-		double receiver_new_balance = receiver.getAccountBalance() +transfer.getAmount();
+		Optional<WalletAccount> RecieverAccountOp=accountdao.findById(recieverId);
+		if(RecieverAccountOp.isPresent()) {
+			RecieverAccount=RecieverAccountOp.get();
+		}
+		else {
+			throw new TransactionException("Reciever ID is not present");
+		}
 		
-		updateBalance(sender.getAccountId(),sender_new_balance);
-		updateBalance(receiver.getAccountId(),receiver_new_balance);
-		
+		if(SenderAccount.getAccountBalance() < amt) throw new TransactionException("Insufficient Balance");
+		SenderAccount.setAccountBalance(SenderAccount.getAccountBalance()-amt);
+		RecieverAccount.setAccountBalance(RecieverAccount.getAccountBalance()+amt);
+		accountdao.updateBalance(SenderAccount.getAccountBalance(), SenderAccount.getAccountId());
+		accountdao.updateBalance(RecieverAccount.getAccountBalance(), RecieverAccount.getAccountId());
 		return "Transaction Successfully Completed";
-
-	}
-    
-    @Override
-	@Transactional(propagation = Propagation.REQUIRED)
-	public void updateBalance(int accountId, double amount) {
-		// TODO Auto-generated method stub
-		WalletAccount wallet;
-		Optional<WalletAccount> present = accountdao.findById(accountId);
+    }
 		
-			wallet = present.get();
+		@Override
+		@Transactional(readOnly = true)
+		public List<WalletTransactions> viewAllTransactions(){
+			return transferdao.findAll();
 		
 
-		wallet.setAccountBalance(amount);
-
-	}
-	
-	@Override
-	@Transactional(readOnly = true)
-	public WalletAccount findAccount(int accountId) {
-		// TODO Auto-generated method stub
-		Optional<WalletAccount> acc = accountdao.findById(accountId);
-		
-			return acc.get();
-		
-			
-		
-	}
-	
-    
-	@Override
-	@Transactional(readOnly = true)
-	public List<WalletTransactions> transactionHistory(int senderId) {
-		// TODO Auto-generated method stub
-		List<WalletTransactions> history= transferdao.findBySenderId(senderId);
-		System.out.println(history.get(0));
-		return history;
-	}
-	
-
+}
 }
